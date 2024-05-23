@@ -34,4 +34,32 @@ const createUser = async (req, res, next) => {
   }
 };
 
-module.exports = { createUser };
+const loginUser = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: "Email doesn't exist" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Wrong credentials" });
+    }
+
+    const token = sign({ id: user._id }, process.env.SECRET, { expiresIn: "7d" });
+
+    res.status(200).json({ accessToken: token });
+  } catch (err) {
+    next(createHttpError(500, "Error while logging in."));
+  }
+};
+
+module.exports = { createUser, loginUser };
