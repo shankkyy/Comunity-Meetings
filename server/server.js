@@ -17,6 +17,8 @@ try {
     console.log("error connecting to the db", error);
 }
 
+
+
 app.use('/api/users',userRouter);
 
 app.listen(port,(req,res)=>{
