@@ -5,19 +5,18 @@ const app = express();
 const cors=require('cors')
 require('dotenv').config()
 app.use(cors())
+const bodyParser = require("body-parser");
+ app.use(bodyParser.json());
 
 app.use(express.json());
 
 port = process.env.PORT||5000;
-try {
+
     mongoose.connect('mongodb://0.0.0.0:27017/bookstore')
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(error => console.error('Error connecting to MongoDB:', error));
+    
 
-    console.log('connected to mongodb')
-
-} catch (error) {
-
-    console.log("error connecting to the db", error);
-}
 
 
 

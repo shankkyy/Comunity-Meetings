@@ -1,8 +1,11 @@
 const bcrypt = require('bcrypt');
 const userModel = require('./userModel');
 const createHttpError = require('http-errors');
-const { sign } = require('jsonwebtoken');
+const { sign, verify } = require('jsonwebtoken');
 require('dotenv').config();
+
+// In-memory token blacklist
+const blacklistedTokens = new Set();
 
 const createUser = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -26,7 +29,7 @@ const createUser = async (req, res, next) => {
       password: hashedPassword,
     });
 
-    const token = sign({ id: newUser._id }, process.env.SECRET, { expiresIn: '1h' });
+    const token = sign({ id: newUser._id }, process.env.SECRET, { expiresIn: '5000s' });
 
     res.status(201).json({ message: "User created successfully", user: newUser, accessToken: token });
   } catch (err) {
@@ -62,4 +65,41 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-module.exports = { createUser, loginUser };
+const logoutUser = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(400).json({ message: "Authorization header missing" });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  // Add token to blacklist
+  blacklistedTokens.add(token);
+
+  res.status(200).json({ message: "Logged out successfully" });
+};
+
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).json({ message: "Authorization header missing" });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  if (blacklistedTokens.has(token)) {
+    return res.status(401).json({ message: "Token has been invalidated" });
+  }
+
+  try {
+    const decoded = verify(token, process.env.SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: "Invalid token" });
+  }
+};
+
+module.exports = { createUser, loginUser, logoutUser, verifyToken };

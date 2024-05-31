@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 function Register() {
   const [name, setName] = useState('');
@@ -11,15 +10,25 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/api/users/register', { name, email, password });
-      console.log(response);
-      navigate('/login');
-    } catch (err) {
-      if (err.response && err.response.status === 409) {
+      const response = await fetch('http://localhost:8000/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (response.ok) {
+        console.log(await response.json());
+        navigate('/login');
+      } else if (response.status === 409) {
         alert('Email already exists');
       } else {
-        console.log(err);
+        const errorData = await response.json();
+        console.log('Error:', errorData);
       }
+    } catch (err) {
+      console.log('Network error:', err);
     }
   };
 

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Login() {
@@ -12,20 +11,26 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/api/users/login', { email, password });
-      if (response.status === 200) {
-        const { accessToken } = response.data;
+      const response = await fetch('http://localhost:8000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const { accessToken } = data;
         localStorage.setItem('accessToken', accessToken); // Save the token to localStorage
         navigate('/home'); // Redirect to the home page
       } else {
-        setError(response.data.message || 'Authentication failed. Please try again.');
+        const errorData = await response.json();
+        setError(errorData.message || 'Authentication failed. Please try again.');
       }
     } catch (err) {
-      if (err.response) {
-        setError(err.response.data.message || 'Authentication failed. Please try again.');
-      } else {
-        setError('An error occurred. Please try again.');
-      }
+      setError('An error occurred. Please try again.');
+      console.log('Network error:', err);
     }
   };
 

@@ -4,20 +4,19 @@ import Home from './components/Home'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 import { Route,Routes} from 'react-router-dom'
-// import { AnimatePresence } from 'framer-motion'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
 
   return (
     
-    // <AnimatePresence mode='wait'>
+   
   <Routes>
     <Route path ='/' default element={<Register/>}></Route>
     <Route path ='/login' element={<Login/>}></Route>
-    <Route path ='/home/*' element={<Home/>}></Route>
+    <Route path ='/home/*' element={<ProtectedRoute><Home /></ProtectedRoute>}></Route>
 
   </Routes>
-  // </AnimatePresence>
   )
 }
 
