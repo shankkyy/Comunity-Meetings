@@ -8,6 +8,7 @@
 html,body{
   font-family:'Roselindale Display Condensed' ;
   background:#c6d5c6 ;
+  
 } 
 .nav{
   position:fixed;
@@ -51,7 +52,7 @@ top: 0;
 left:0;
 width: 100%;
 height: 100vh;
-background: #0f0f0f;
+background: #c6d5c6;
 transform-origin: left;
 }
 .slide-out{
@@ -60,7 +61,7 @@ transform-origin: left;
   left:0;
   width: 100%;
   height: 100vh;
-  background: #0f0f0f;
+  background: #c6d5c6;
   transform-origin:right;
 }
 
