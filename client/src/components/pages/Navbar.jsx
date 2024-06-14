@@ -23,7 +23,6 @@ const Navbar = () => {
             });
     
             if (response.ok) {
-                console.log('Logout successful'); // Debug log
                 localStorage.removeItem('token');
                 navigate('/login');
                 alert('Logged out succesfully')
@@ -41,18 +40,19 @@ const Navbar = () => {
         <div className="nav">
             <div className="nav-links">
                 <div className="nav-item">
-                    <Link className='nav-link' to="team">Team</Link>
+                    <Link className='nav-link' to=""> Upcomming  Events </Link>
                 </div>
                 <div className="nav-item">
-                    <Link className='nav-link' to="about">About</Link>
+                    <Link className='nav-link' to="create">Create Event</Link>
                 </div>
                 <div className="nav-item">
-                    <Link className='nav-link' to="contact">Contact</Link>
+                    <Link className='nav-link' to="contact">Community Meetup</Link>
                 </div>
-            </div>
-            <div className="nav-item">
+                <div className="nav-item">
                 <button className='nav-link' onClick={handleLogout}>Logout</button>
             </div>
+            </div>
+            
         </div>
     );
 };
