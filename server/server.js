@@ -2,6 +2,8 @@ const express= require('express')
 const mongoose = require('mongoose')
 const userRouter= require('./user/userRoutes')
 const eventRouter= require('./event/eventRoutes')
+const experienceRouter= require('./experiences/experienceRoutes')
+const path = require('path');
 const app = express();
 const cors=require('cors')
 require('dotenv').config()
@@ -23,7 +25,10 @@ port = process.env.PORT||5000;
 app.use('/api/users',userRouter);
 app.use('/api/events', eventRouter);
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+
+app.use('/api/experiences', experienceRouter);
 app.listen(port,(req,res)=>{
     console.log(`server is running on port ${port}`)
 })
