@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import transition from '../../transition';
 import axios from 'axios';
 import { Container, Form, FormGroup, Label, Input, Button, Card, CardBody, CardImg, CardText } from 'reactstrap';
@@ -9,7 +9,16 @@ const Experiences = () => {
         description: '',
         images: []
     });
-    const [experiences, setExperiences] = useState([]);
+    const [experiences, setExperiences] = useState(() => {
+        // Load experiences from local storage if available
+        const savedExperiences = localStorage.getItem('experiences');
+        return savedExperiences ? JSON.parse(savedExperiences) : [];
+    });
+
+    useEffect(() => {
+        // Save experiences to local storage whenever it changes
+        localStorage.setItem('experiences', JSON.stringify(experiences));
+    }, [experiences]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
