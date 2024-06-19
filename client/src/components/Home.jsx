@@ -4,8 +4,9 @@ import { AnimatePresence } from 'framer-motion';
 import Team from './pages/Team';
 import Contact from './pages/Contact';
 import CreateEvent from './pages/CreateEvent';
-import Navbar from './pages/Navbar';
+import Navbar from './Navbar';
 import UpdateEvent from './pages/UpdateEvent';
+import Footer from './Footer';
 function Home() {
   const location = useLocation();
 
@@ -22,6 +23,7 @@ function Home() {
           </Routes>
         </AnimatePresence>
       </div>
+      <Footer/>
     </div>
   );
 }

@@ -74,6 +74,10 @@ transform-origin: bottom;
   z-index: 1000;
 }
 
+.nav.scrolled {
+  background-color: #fff; /* White background when scrolled */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a slight shadow for depth */
+}
 
 .nav-item.profile {
   display: flex;
@@ -91,7 +95,7 @@ transform-origin: bottom;
 .profile-text {
   color: #fff;
   font-size: 1em;
-  margin-right: 10px; /* Adjust margin as needed */
+  margin-right: 10px; 
 }
 .profile-card {
   position: absolute;
@@ -104,7 +108,7 @@ transform-origin: bottom;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 10;
-  width: 200px; /* Adjust width as needed */
+  width: 200px; 
 }
 
 .profile-details {
