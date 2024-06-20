@@ -7,7 +7,6 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         const token = localStorage.getItem('accessToken');
-        console.log('Retrieved token:', token);
 
         if (!token) {
             console.error('No token found');
@@ -24,7 +23,7 @@ const Navbar = () => {
             });
 
             if (response.ok) {
-                localStorage.removeItem('token');
+                localStorage.removeItem('accessToken');
                 navigate('/login');
                 alert('Logged out successfully');
             } else {
@@ -52,19 +51,30 @@ const Navbar = () => {
     }, []);
 
     return (
-        <div className={`nav ${scrolled ? 'scrolled' : ''}`}>
-            <div className="nav-links">
-                <div className="nav-item">
-                    <Link className='nav-link' to="">Upcoming Events</Link>
-                </div>
-                <div className="nav-item">
-                    <Link className='nav-link' to="create">Create Event</Link>
-                </div>
-                <div className="nav-item">
-                    <Link className='nav-link' to="contact">Community Meetup</Link>
-                </div>
-                <div className="nav-item">
-                    <button className='nav-link' onClick={handleLogout}>Logout</button>
+        <div style={{
+            position: 'fixed',
+            top: 0,
+            width: '100%',
+            backgroundColor: scrolled ? '#fff' : 'transparent',
+            boxShadow: scrolled ? '0 2px 4px rgba(0, 0, 0, 0.1)' : 'none',
+            zIndex: 1000,
+            padding: '10px 20px',
+            transition: 'background-color 0.3s, box-shadow 0.3s'
+        }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Link to="" style={{ marginRight: '20px', textDecoration: 'none', color: scrolled ? '#333' : '#fff', fontSize: '2em', fontWeight:'inherit' }}>Upcoming Events</Link>
+                    <Link to="create" style={{ marginRight: '20px', textDecoration: 'none', color: scrolled ? '#333' : '#fff', fontSize: '2em', fontWeight: 'inherit' }}>Create Event</Link>
+                    <Link to="contact" style={{ marginRight: '20px', textDecoration: 'none', color: scrolled ? '#333' : '#fff', fontSize: '2em', fontWeight: 'inherit' }}>Community Meetup</Link>
+                    <button onClick={handleLogout} style={{
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: '10px 20px',
+                        fontSize: '2em',
+                        fontWeight:'inherit',
+                        color: scrolled ? '#333' : '#fff'
+                    }}>Logout</button>
                 </div>
             </div>
         </div>

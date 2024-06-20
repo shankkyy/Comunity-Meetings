@@ -11,6 +11,8 @@
   },
   "proxy": "http://localhost:8000",
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "axios": "^1.7.2",
     "framer-motion": "^11.2.9",
     "react": "^18.2.0",
