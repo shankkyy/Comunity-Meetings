@@ -59,7 +59,7 @@ const Experiences = () => {
                         {experiences.map((experience, index) => (
                             <Card className="experience-card" key={index}>
                                 {experience.images.map((image, idx) => (
-                                    <CardImg top key={idx} src={`http://localhost:8000/${image}`} alt="Experience image" />
+                                    <CardImg top key={idx} src={`https://comunity-meetings-3.onrender.com/${image}`} alt="Experience image" />
                                 ))}
                                 <CardBody>
                                     <CardText>{experience.description}</CardText>
