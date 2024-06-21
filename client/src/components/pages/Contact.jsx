@@ -37,7 +37,7 @@ const Experiences = () => {
             formData.append('images', experienceData.images[i]);
         }
 
-        axios.post('http://localhost:8000/api/experiences/add', formData)
+        axios.post('https://comunity-meetings-3.onrender.com/api/experiences/add', formData)
             .then(response => {
                 setExperiences([...experiences, response.data]);
                 setExperienceData({
