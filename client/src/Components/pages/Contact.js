@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import transition from '../../Transition'
 import axios from 'axios';
 import { Container, Form, FormGroup, Label, Input, Button, Card, CardBody, CardImg, CardText } from 'reactstrap';
-import './Experiences.css';
+import '../pages/Experiences.css';
 
 const Experiences = () => {
     const [experienceData, setExperienceData] = useState({
