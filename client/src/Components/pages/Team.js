@@ -11,7 +11,7 @@ function EventList() {
     useEffect(() => {
         axios.get('https://comunity-meetings-3.onrender.com/api/events/')
             .then(response => {
-                setEvents(response.data);
+                setEvents(response.data.reverse());
             })
             .catch(error => {
                 console.log(error);
@@ -30,6 +30,10 @@ function EventList() {
 
     const handleUpdate = (id) => {
         navigate(`update/${id}`);
+    };
+
+    const handleAdd = (newEvent) => {
+        setEvents([newEvent, ...events]);
     };
 
     return (
