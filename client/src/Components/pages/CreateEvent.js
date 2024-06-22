@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Form, FormGroup, Label, Input, Button, Card } from 'reactstrap';
 import transition from '../../Transition';
@@ -13,6 +13,8 @@ function CreateEvent() {
         organizer: '',
         attendees: ''
     });
+
+    const [latestEvent, setLatestEvent] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -36,16 +38,43 @@ function CreateEvent() {
                     organizer: '',
                     attendees: ''
                 });
+                fetchLatestEvent();  // Fetch the latest event after creating a new one
             })
             .catch(error => {
                 console.error("There was an error creating the event!", error);
             });
     };
 
+    const fetchLatestEvent = () => {
+        axios.get('https://comunity-meetings-3.onrender.com/api/events/latest')
+            .then(response => {
+                setLatestEvent(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the latest event!", error);
+            });
+    };
+
+    useEffect(() => {
+        fetchLatestEvent();
+    }, []);
+
     return (
         <div style={styles.outerCard}>
             <Card style={styles.cardContent}>
                 <h3 className="text-center">Create New Event</h3>
+                {latestEvent && (
+                    <div style={styles.latestEvent}>
+                        <h4>Latest Event</h4>
+                        <p><strong>Title:</strong> {latestEvent.title}</p>
+                        <p><strong>Description:</strong> {latestEvent.description}</p>
+                        <p><strong>Date:</strong> {latestEvent.date}</p>
+                        <p><strong>Time:</strong> {latestEvent.time}</p>
+                        <p><strong>Location:</strong> {latestEvent.location}</p>
+                        <p><strong>Organizer:</strong> {latestEvent.organizer}</p>
+                        <p><strong>Attendees:</strong> {latestEvent.attendees.join(', ')}</p>
+                    </div>
+                )}
                 <Form onSubmit={handleSubmit}>
                     <FormGroup>
                         <Label for="title">Title</Label>
@@ -147,6 +176,13 @@ const styles = {
         borderRadius: '15px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
         background: '#f9f9f9',
+    },
+    latestEvent: {
+        marginBottom: '20px',
+        padding: '10px',
+        borderRadius: '10px',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+        background: '#fff',
     }
 };
 
