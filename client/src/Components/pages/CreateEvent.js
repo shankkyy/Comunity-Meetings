@@ -1,8 +1,7 @@
-import transition from '../../Transition';
 import React, { useState } from 'react';
 import axios from 'axios';
-import {  Form, FormGroup, Label, Input, Button, Card } from 'reactstrap';
-import './CreateEvent.css';
+import { Form, FormGroup, Label, Input, Button, Card } from 'reactstrap';
+import transition from '../../Transition';
 
 function CreateEvent() {
     const [eventData, setEventData] = useState({
@@ -44,8 +43,8 @@ function CreateEvent() {
     };
 
     return (
-        <div className='outer-card'>
-            <Card className="card-content">
+        <div style={styles.outerCard}>
+            <Card style={styles.cardContent}>
                 <h3 className="text-center">Create New Event</h3>
                 <Form onSubmit={handleSubmit}>
                     <FormGroup>
@@ -131,5 +130,24 @@ function CreateEvent() {
         </div>
     );
 }
+
+const styles = {
+    outerCard: {
+        margin: 0,
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'transparent',
+    },
+    cardContent: {
+        width: '100%',
+        maxWidth: '600px',
+        padding: '20px',
+        borderRadius: '15px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+        background: '#f9f9f9',
+    }
+};
 
 export default transition(CreateEvent);

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import transition from '../../Transition'
 import axios from 'axios';
+import transition from '../../Transition';
 import { Container, Form, FormGroup, Label, Input, Button, Card, CardBody, CardImg, CardText } from 'reactstrap';
-import '../pages/Experiences.css';
 
 const Experiences = () => {
     const [experienceData, setExperienceData] = useState({
@@ -51,13 +50,13 @@ const Experiences = () => {
     };
 
     return (
-        <Container className="experiences-container">
+        <Container style={styles.experiencesContainer}>
             <div className="row">
                 <div className="col-md-8">
                     <h1>We Are Here to Listen to Your Experiences</h1>
-                    <div className="experience-grid">
+                    <div style={styles.experienceGrid}>
                         {experiences.map((experience, index) => (
-                            <Card className="experience-card" key={index}>
+                            <Card style={styles.experienceCard} key={index}>
                                 {experience.images.map((image, idx) => (
                                     <CardImg top key={idx} src={`https://comunity-meetings-3.onrender.com/${image}`} alt="Experience image" />
                                 ))}
@@ -69,8 +68,8 @@ const Experiences = () => {
                     </div>
                 </div>
                 <div className="col-md-4">
-                    <div className="input-card">
-                        <Form className="experience-form" onSubmit={handleSubmit}>
+                    <div className="input-card" style={styles.experienceForm}>
+                        <Form onSubmit={handleSubmit}>
                             <FormGroup>
                                 <Label for="description">Description</Label>
                                 <Input
@@ -80,6 +79,7 @@ const Experiences = () => {
                                     value={experienceData.description}
                                     onChange={handleChange}
                                     required
+                                    style={styles.input}
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -91,9 +91,10 @@ const Experiences = () => {
                                     multiple
                                     onChange={handleFileChange}
                                     required
+                                    style={styles.input}
                                 />
                             </FormGroup>
-                            <Button type="submit" color="primary">Share Experience</Button>
+                            <Button type="submit" color="primary" style={styles.button}>Share Experience</Button>
                         </Form>
                     </div>
                 </div>
@@ -101,5 +102,48 @@ const Experiences = () => {
         </Container>
     );
 }
+
+const styles = {
+    experiencesContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '20px',
+    },
+    experienceGrid: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gap: '20px',
+        width: '100%',
+    },
+    experienceCard: {
+        background: '#fff',
+        borderRadius: '15px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '10px',
+        transition: 'transform 0.5s ease-in-out',
+    },
+    experienceForm: {
+        width: '100%',
+        maxWidth: '600px',
+        marginBottom: '20px',
+        padding: '20px',
+        borderRadius: '15px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+        background: '#f9f9f9',
+        alignSelf: 'flex-end',
+    },
+    input: {
+        width: '100%',
+        marginBottom: '10px',
+    },
+    button: {
+        width: '100%',
+    },
+};
 
 export default transition(Experiences);

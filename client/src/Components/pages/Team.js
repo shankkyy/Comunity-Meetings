@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card, CardBody, CardTitle, CardText, CardFooter, Container, Button } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
-import './EventList.css';
 
 function EventList() {
     const [events, setEvents] = useState([]);
@@ -35,14 +34,14 @@ function EventList() {
 
     return (
         <div>
-            <div className="page-background"></div>
-            <div className="overlay"></div>
-            <Container className="container-content" style={{ marginTop: '20px' }}>
+            <div style={styles.pageBackground}></div>
+            <div style={styles.overlay}></div>
+            <Container style={{ ...styles.containerContent, marginTop: '20px' }}>
                 <h2>Upcoming Events</h2>
                 <div className="row">
                     {events.map(event => (
                         <div className="col-md-4" key={event._id} style={{ marginBottom: '20px' }}>
-                            <Card className="card">
+                            <Card style={styles.card}>
                                 <CardBody>
                                     <CardTitle tag="h5">{event.title}</CardTitle>
                                     <CardText>{event.description}</CardText>
@@ -66,5 +65,34 @@ function EventList() {
         </div>
     );
 }
+
+const styles = {
+    pageBackground: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundSize: 'cover',
+        zIndex: -1,
+    },
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: -1,
+    },
+    containerContent: {
+        position: 'relative',
+        zIndex: 1,
+    },
+    card: {
+        background: 'rgba(255, 255, 255, 0.8)',
+        borderRadius: '15px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    }
+};
 
 export default transition(EventList);
