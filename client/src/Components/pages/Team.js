@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card, CardBody, CardTitle, CardText, CardFooter, Container, Button } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
-import './EventList.css';
+import '../pages/EventList.css';
 
 function EventList() {
     const [events, setEvents] = useState([]);
