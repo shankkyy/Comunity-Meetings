@@ -1,7 +1,7 @@
 import transition from '../../Transition';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Form, FormGroup, Label, Input, Button, Card } from 'reactstrap';
+import {  Form, FormGroup, Label, Input, Button, Card } from 'reactstrap';
 import './CreateEvent.css';
 
 function CreateEvent() {
