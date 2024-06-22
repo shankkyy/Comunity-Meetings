@@ -1,5 +1,5 @@
 body {
-    background-image: url('/client/experiencebg.jpg'); /* Replace with your image path */
+    background-image: url('/src/experiencebg.jpg'); /* Replace with your image path */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
