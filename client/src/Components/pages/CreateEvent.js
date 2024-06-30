@@ -150,7 +150,7 @@ function CreateEvent() {
                             id="attendees"
                             value={eventData.attendees}
                             onChange={handleChange}
-                            placeholder="Enter attendees separated by commas"
+                            placeholder="Enter the attendees email seperated by comas"
                         />
                     </FormGroup>
                     <Button type="submit" color="primary" block>Create Event</Button>

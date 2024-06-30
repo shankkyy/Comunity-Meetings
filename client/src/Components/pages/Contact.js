@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import transition from '../../Transition';
 import { Container, Form, FormGroup, Label, Input, Button, Card, CardBody, CardImg, CardText } from 'reactstrap';
 import LazyLoad from 'react-lazyload';
+import _ from 'lodash';
 
 const Experiences = () => {
     const [experienceData, setExperienceData] = useState({
@@ -10,18 +11,28 @@ const Experiences = () => {
         images: []
     });
     const [experiences, setExperiences] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        // Fetch experiences from the server when the component mounts
+    const fetchExperiences = useCallback(() => {
+        setLoading(true);
         axios.get('https://comunity-meetings-3.onrender.com/api/experiences')
             .then(response => {
                 console.log('Fetched experiences:', response.data); // Log the response
                 setExperiences(response.data);
+                setLoading(false);
             })
             .catch(error => {
                 console.error("There was an error fetching the experiences!", error);
+                setLoading(false);
             });
     }, []);
+
+    // Use debounce to reduce frequency of API calls
+    const debouncedFetchExperiences = useCallback(_.debounce(fetchExperiences, 3), []);
+
+    useEffect(() => {
+        debouncedFetchExperiences();
+    }, [debouncedFetchExperiences]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -59,25 +70,30 @@ const Experiences = () => {
             <div className="row">
                 <div className="col-md-8">
                     <h1>We Are Here to Listen to Your Experiences</h1>
-                    <div style={styles.experienceGrid}>
-                        {experiences.map((experience, index) => (
-                            <Card style={styles.experienceCard} key={index}>
-                                {experience.images.map((image, idx) => (
-                                    <LazyLoad key={idx} height={200} offset={100} once>
-                                        <CardImg
-                                            top
-                                            src={`https://comunity-meetings-3.onrender.com/${image}`}
-                                            alt="Experience image"
-                                            onError={(e) => { e.target.onerror = null; e.target.src = 'fallback-image-url'; }} // Fallback image
-                                        />
-                                    </LazyLoad>
-                                ))}
-                                <CardBody>
-                                    <CardText>{experience.description}</CardText>
-                                </CardBody>
-                            </Card>
-                        ))}
-                    </div>
+                    {loading ? (
+                        <p>Loading experiences...</p>
+                    ) : (
+                        <div style={styles.experienceGrid}>
+                            {experiences.map((experience, index) => (
+                                <Card style={styles.experienceCard} key={index}>
+                                    {experience.images.map((image, idx) => (
+                                        <LazyLoad key={idx} height={200} offset={100} once>
+                                         <CardImg
+    top
+    src={`https://comunity-meetings-3.onrender.com/${image}`}
+    alt="Experience image"
+    onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/150'; }} // Fallback image
+/>
+
+                                        </LazyLoad>
+                                    ))}
+                                    <CardBody>
+                                        <CardText>{experience.description}</CardText>
+                                    </CardBody>
+                                </Card>
+                            ))}
+                        </div>
+                    )}
                 </div>
                 <div className="col-md-4">
                     <div className="input-card" style={styles.experienceForm}>
