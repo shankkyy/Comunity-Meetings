@@ -1,6 +1,18 @@
 const express = require('express');
 const router = express.Router();
+const nodemailer = require('nodemailer');
 const Event = require('./eventModel');
+
+const smtpConfig = {
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // use SSL
+    auth: {
+        user: 'nishankv24@gmail.com',
+        pass: 'nohcvthimyxvjwbh'
+    }
+};
+const transporter = nodemailer.createTransport(smtpConfig);
 
 // Get all events
 router.get('/', (req, res) => {
@@ -12,9 +24,44 @@ router.get('/', (req, res) => {
 // Create a new event
 router.post('/add', (req, res) => {
     const newEvent = new Event(req.body);
-
     newEvent.save()
-        .then(() => res.json('Event added!'))
+        .then(newEvent => {
+            const { title, date, time, location, attendees,organizer } = newEvent; 
+            
+            const mailOptions = {
+                from: 'nishankv24@gmail.com',
+                to: attendees,
+                subject: `You got invited to the event: ${title}`,
+                text: `
+                Hello!
+                
+                We are thrilled to invite you to our upcoming event: **${title}**. 
+                
+                Here are the details:
+                - **Date**: ${date}
+                - **Time**: ${time}
+                - **Location**: ${location}
+                
+                Join us for an enriching experience filled with insightful discussions, networking opportunities, and a chance to connect with like-minded individuals. This event, organized by ${organizer}, promises to be an exciting occasion you won't want to miss.
+                
+                We look forward to seeing you there and sharing this wonderful experience with you!
+                
+                Best regards,
+                Team Community Scheduler
+                `
+            };
+
+            console.log(mailOptions.text)
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log(error);
+                    res.status(500).send(error.toString());
+                } else {
+                    console.log('Email sent: ' + info.response);
+                    res.status(200).json({ success: true, message: 'Event created and emails sent successfully', event: newEvent });
+                }
+            });
+        })
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
