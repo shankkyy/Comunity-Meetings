@@ -54,7 +54,6 @@ router.post('/add', (req, res) => {
                 
             };
 
-            console.log(mailOptions.html)
             transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
                     console.log(error);
