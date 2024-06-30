@@ -32,26 +32,29 @@ router.post('/add', (req, res) => {
                 from: 'nishankv24@gmail.com',
                 to: attendees,
                 subject: `You got invited to the event: ${title}`,
-                text: `
-                Hello!
+                html: `
+                <p>Hello!</p>
                 
-                We are thrilled to invite you to our upcoming event: **${title}**. 
+                <p>We are thrilled to invite you to our upcoming event: <strong>${title}</strong>.</p>
                 
-                Here are the details:
-                - **Date**: ${date}
-                - **Time**: ${time}
-                - **Location**: ${location}
+                <p>Here are the details:</p>
+                <ul>
+                    <li><strong>Date:</strong> ${date}</li>
+                    <li><strong>Time:</strong> ${time}</li>
+                    <li><strong>Location:</strong> ${location}</li>
+                </ul>
                 
-                Join us for an enriching experience filled with insightful discussions, networking opportunities, and a chance to connect with like-minded individuals. This event, organized by ${organizer}, promises to be an exciting occasion you won't want to miss.
+                <p>Join us for an enriching experience filled with insightful discussions, networking opportunities, and a chance to connect with like-minded individuals. This event, organized by ${organizer}, promises to be an exciting occasion you won't want to miss.</p>
                 
-                We look forward to seeing you there and sharing this wonderful experience with you!
+                <p>We look forward to seeing you there and sharing this wonderful experience with you!</p>
                 
-                Best regards,
-                Team Community Scheduler
+                <p>Best regards,<br>
+                Team Community Scheduler</p>
                 `
+                
             };
 
-            console.log(mailOptions.text)
+            console.log(mailOptions.html)
             transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
                     console.log(error);
