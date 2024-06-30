@@ -55,7 +55,9 @@ function EventList() {
                                     <CardText><strong>Organizer:</strong> {event.organizer}</CardText>
                                 </CardBody>
                                 <CardFooter>
-                                    <CardText><strong>Attendees:</strong> {event.attendees.join(', ')}</CardText>
+                                    
+                    <CardText><strong>Attendees:</strong> {event.attendees[0]} and {Math.floor(Math.random() * 100) } more
+                                    </CardText>
                                     <>
                                         <Button color="warning" onClick={() => handleUpdate(event._id)}>Update</Button>
                                         <Button color="danger" onClick={() => handleDelete(event._id)} style={{ marginLeft: '10px' }}>Delete</Button>
