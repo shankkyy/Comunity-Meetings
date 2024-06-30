@@ -5,7 +5,7 @@ import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
 function UpdateEvent() {
     const { id } = useParams();
-    console.log(id);
+    // console.log(id);
     const navigate = useNavigate();
     const [event, setEvent] = useState({
         title: '',
