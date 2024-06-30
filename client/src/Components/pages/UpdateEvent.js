@@ -37,7 +37,7 @@ function UpdateEvent() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.put(`https://comunity-meetings-3.onrender.com/api/events/upd ate/${id}`, event)
+        axios.put(`https://comunity-meetings-3.onrender.com/api/events/update/${id}`, event)
             .then(response => {
                 navigate('/home');
             })
