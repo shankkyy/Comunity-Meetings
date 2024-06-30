@@ -1,29 +1,26 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const router = express.Router();
-const Event = require('./eventModel');
+const Event = require('./eventModel'); // Make sure the eventModel is correctly defined and exported
 
-// Get all events
-router.get('/', (req, res) => {
-    Event.find()
-        .then(events => res.json(events))
-        .catch(err => res.status(400).json('Error: ' + err));
-});
-
-// Create a new event
+// Create a Nodemailer transporter using environment variables
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'nishankverma24@gmail.com', // Your email
-        pass: '23456' // l password
+        user: "shivv2403@gmail.com",
+        pass: 223344,
     }
 });
 
 const sendEmails = (eventData) => {
     const { title, description, date, time, location, organizer, attendees } = eventData;
     const mailOptions = {
-        from: 'your-email@gmail.com',
+        from: process.env.EMAIL_USER,
         to: attendees.join(', '),
         subject: `New Event: ${title}`,
         text: `Hello,
@@ -52,19 +49,23 @@ Event Team`
     });
 };
 
+// Get all events
+router.get('/', (req, res) => {
+    Event.find()
+        .then(events => res.json(events))
+        .catch(err => res.status(400).json({ error: err.message }));
+});
 
+// Create a new event
 router.post('/add', (req, res) => {
     const newEvent = new Event(req.body);
-    const savedEvent = {
-        ...newEvent,
-        id: Date.now() // Mock event ID
-    };
 
-    // Send emails to attendees
-    sendEmails(savedEvent);
     newEvent.save()
-        .then(() => res.json('Event added!'))
-        .catch(err => res.status(400).json('Error: ' + err));
+        .then(event => {
+            sendEmails(event);
+            res.json({ message: 'Event added!', event });
+        })
+        .catch(err => res.status(400).json({ error: err.message }));
 });
 
 // Update an event using PUT
@@ -74,10 +75,10 @@ router.put('/update/:id', (req, res) => {
 
     Event.findByIdAndUpdate(id, updatedData, { new: true })
         .then(updatedEvent => {
-            if (!updatedEvent) return res.status(404).json('Event not found');
+            if (!updatedEvent) return res.status(404).json({ error: 'Event not found' });
             res.json(updatedEvent);
         })
-        .catch(err => res.status(500).json('Error: ' + err));
+        .catch(err => res.status(500).json({ error: err.message }));
 });
 
 // Delete an event
@@ -86,12 +87,10 @@ router.delete('/delete/:id', (req, res) => {
 
     Event.findByIdAndDelete(id)
         .then(event => {
-            if (!event) {
-                return res.status(404).json({ message: 'Event not found' });
-            }
+            if (!event) return res.status(404).json({ message: 'Event not found' });
             res.json({ message: 'Event successfully deleted' });
         })
-        .catch(err => res.status(500).json({ error: 'Error: ' + err }));
+        .catch(err => res.status(500).json({ error: err.message }));
 });
 
 module.exports = router;
