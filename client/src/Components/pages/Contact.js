@@ -2,22 +2,26 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import transition from '../../Transition';
 import { Container, Form, FormGroup, Label, Input, Button, Card, CardBody, CardImg, CardText } from 'reactstrap';
+import LazyLoad from 'react-lazyload';
 
 const Experiences = () => {
     const [experienceData, setExperienceData] = useState({
         description: '',
         images: []
     });
-    const [experiences, setExperiences] = useState(() => {
-        // Load experiences from local storage if available
-        const savedExperiences = localStorage.getItem('experiences');
-        return savedExperiences ? JSON.parse(savedExperiences) : [];
-    });
+    const [experiences, setExperiences] = useState([]);
 
     useEffect(() => {
-        // Save experiences to local storage whenever it changes
-        localStorage.setItem('experiences', JSON.stringify(experiences));
-    }, [experiences]);
+        // Fetch experiences from the server when the component mounts
+        axios.get('https://comunity-meetings-3.onrender.com/api/experiences')
+            .then(response => {
+                console.log('Fetched experiences:', response.data); // Log the response
+                setExperiences(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the experiences!", error);
+            });
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -38,6 +42,7 @@ const Experiences = () => {
 
         axios.post('https://comunity-meetings-3.onrender.com/api/experiences/add', formData)
             .then(response => {
+                // Add the new experience to the existing list
                 setExperiences([...experiences, response.data]);
                 setExperienceData({
                     description: '',
@@ -58,7 +63,14 @@ const Experiences = () => {
                         {experiences.map((experience, index) => (
                             <Card style={styles.experienceCard} key={index}>
                                 {experience.images.map((image, idx) => (
-                                    <CardImg top key={idx} src={`https://comunity-meetings-3.onrender.com/${image}`} alt="Experience image" />
+                                    <LazyLoad key={idx} height={200} offset={100} once>
+                                        <CardImg
+                                            top
+                                            src={`https://comunity-meetings-3.onrender.com/${image}`}
+                                            alt="Experience image"
+                                            onError={(e) => { e.target.onerror = null; e.target.src = 'fallback-image-url'; }} // Fallback image
+                                        />
+                                    </LazyLoad>
                                 ))}
                                 <CardBody>
                                     <CardText>{experience.description}</CardText>
