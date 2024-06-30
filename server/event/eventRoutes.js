@@ -2,14 +2,16 @@ const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 const Event = require('./eventModel');
+const dotenv=require('dotenv');
+dotenv.config();
 
 const smtpConfig = {
     host: 'smtp.gmail.com',
     port: 465,
     secure: true, // use SSL
     auth: {
-        user: 'nishankv24@gmail.com',
-        pass: 'nohcvthimyxvjwbh'
+        user: process.env.USER,
+        pass: process.env.PASS
     }
 };
 const transporter = nodemailer.createTransport(smtpConfig);
