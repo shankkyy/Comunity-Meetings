@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 const sendEmails = (eventData) => {
     const { title, description, date, time, location, organizer, attendees } = eventData;
     const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: "nishankverma24@gmail.com",
         to: attendees.join(', '),
         subject: `New Event: ${title}`,
         text: `Hello,
