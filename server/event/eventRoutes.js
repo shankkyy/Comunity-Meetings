@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 const Event = require('./eventModel');
-const dotenv=require('dotenv');
+const dotenv = require('dotenv');
+const cron = require('node-cron');
+const moment = require('moment');
+
 dotenv.config();
 
 const smtpConfig = {
@@ -16,6 +19,57 @@ const smtpConfig = {
 };
 const transporter = nodemailer.createTransport(smtpConfig);
 
+// Function to send reminder emails
+const sendReminderEmails = async () => {
+    try {
+        const oneHourLater = moment().add(1, 'hour');
+        const events = await Event.find({
+            date: oneHourLater.format('MM-DD-YYYY'),
+            time: oneHourLater.format('HH:mm')
+        });
+
+        events.forEach(event => {
+            const { title, date, time, location, attendees} = event;
+
+            const mailOptions = {
+                from: 'nishankv24@gmail.com',
+                to: attendees,
+                subject: `Reminder: Upcoming event: ${title}`,
+                html: `
+                <p>Hello!</p>
+                
+                <p>This is a reminder for the upcoming event: <strong>${title}</strong>.</p>
+                
+                <p>Here are the details:</p>
+                <ul>
+                    <li><strong>Date:</strong> ${date}</li>
+                    <li><strong>Time:</strong> ${time}</li>
+                    <li><strong>Location:</strong> ${location}</li>
+                </ul>
+                
+                <p>Looking forward to seeing you there!</p>
+                
+                <p>Best regards,<br>
+                Team Community Scheduler</p>
+                `
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Reminder email sent: ' + info.response);
+                }
+            });
+        });
+    } catch (error) {
+        console.error('Error sending reminder emails:', error);
+    }
+};
+
+// Schedule the job to run every minute
+cron.schedule('* * * * *', sendReminderEmails);
+
 // Get all events
 router.get('/', (req, res) => {
     Event.find()
@@ -28,7 +82,7 @@ router.post('/add', (req, res) => {
     const newEvent = new Event(req.body);
     newEvent.save()
         .then(newEvent => {
-            const { title, date, time, location, attendees,organizer } = newEvent; 
+            const { title, date, time, location, attendees, organizer } = newEvent; 
             
             const mailOptions = {
                 from: 'nishankv24@gmail.com',
