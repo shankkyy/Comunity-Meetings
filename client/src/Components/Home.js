@@ -6,7 +6,7 @@ import Contact from './pages/Contact';
 import CreateEvent from './pages/CreateEvent';
 import Navbar from './Navbar';
 import UpdateEvent from './pages/UpdateEvent';
-import Footer from './Footer';
+// import Footer from './Footer';
 function Home() {
   const location = useLocation();
 
@@ -23,7 +23,7 @@ function Home() {
           </Routes>
         </AnimatePresence>
       </div>
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   );
 }
