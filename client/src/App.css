@@ -7,7 +7,12 @@
 
 
 html,body {
-  background-image: url('/src/experiencebg.jpg'); /* Replace with your image path */
+  /* background-image: url('/src/experiencebg.jpg'); Replace with your image path */
+
+    background: linear-gradient(to bottom right, #4CAF50, #2196F3);
+    background-blend-mode: overlay;
+   
+  
   background-size: cover;
   background-position: center;
   background-attachment: fixed;

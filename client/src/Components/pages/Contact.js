@@ -17,7 +17,7 @@ const Experiences = () => {
         setLoading(true);
         axios.get('https://comunity-meetings-3.onrender.com/api/experiences')
             .then(response => {
-                console.log('Fetched experiences:', response.data); // Log the response
+                // console.log('Fetched experiences:', response.data); // Log the response
                 setExperiences(response.data);
                 setLoading(false);
             })
