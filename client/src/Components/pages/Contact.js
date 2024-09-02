@@ -19,7 +19,7 @@ const Experiences = () => {
             .then(response => {
                 // console.log('Fetched experiences:', response.data); // Log the response
                 setExperiences(response.data);
-                setLoading(false);
+                                setLoading(false);
             })
             .catch(error => {
                 console.error("There was an error fetching the experiences!", error);

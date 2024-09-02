@@ -68,7 +68,7 @@ const sendReminderEmails = async () => {
 };
 
 // Schedule the job to run every minute
-cron.schedule('* * * * *', sendReminderEmails);
+cron.schedule('*/15 * * * *', sendReminderEmails);
 
 // Get all events
 router.get('/', (req, res) => {
