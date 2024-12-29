@@ -17,7 +17,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8000/api/users/register', {
+      const response = await fetch(`https://comunity-meetings-15.onrender.com/api/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -9,7 +9,7 @@ function EventList() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/events/')
+        axios.get(`https://comunity-meetings-15.onrender.com/api/events/`)
             .then(response => {
                 setEvents(response.data.reverse());
             })
@@ -19,7 +19,7 @@ function EventList() {
     }, []);
 
     const handleDelete = (id) => {
-        axios.delete(`http://localhost:8000/api/events/delete/${id}`)
+        axios.delete(`https://comunity-meetings-15.onrender.com/api/events/delete/${id}`)
             .then(response => {
                 setEvents(events.filter(event => event._id !== id));
             })
