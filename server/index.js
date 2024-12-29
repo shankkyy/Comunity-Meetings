@@ -7,6 +7,8 @@ const path = require('path');
 const app = express();
 const cors=require('cors')
 require('dotenv').config()
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 app.use(cors())
 const bodyParser = require("body-parser");
  app.use(bodyParser.json());

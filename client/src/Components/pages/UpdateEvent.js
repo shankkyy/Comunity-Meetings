@@ -17,7 +17,7 @@ function UpdateEvent() {
     });
 
     useEffect(() => {
-        axios.get(`https://comunity-meetings-3.onrender.com/api/events/${id}`)
+        axios.get(`http://localhost:8000/api/events/${id}`)
             .then(response => {
                 setEvent(response.data);
             })
@@ -36,7 +36,7 @@ function UpdateEvent() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.put(`https://comunity-meetings-3.onrender.com/api/events/update/${id}`, event)
+        axios.put(`http://localhost:8000/api/events/update/${id}`, event)
             .then(response => {
                 navigate('/home');
             })

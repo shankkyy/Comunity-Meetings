@@ -15,7 +15,7 @@ const Experiences = () => {
 
     const fetchExperiences = useCallback(() => {
         setLoading(true);
-        axios.get('https://comunity-meetings-3.onrender.com/api/experiences')
+        axios.get('http://localhost:8000/api/experiences')
             .then(response => {
                 // console.log('Fetched experiences:', response.data); // Log the response
                 setExperiences(response.data);
@@ -51,7 +51,7 @@ const Experiences = () => {
             formData.append('images', experienceData.images[i]);
         }
 
-        axios.post('https://comunity-meetings-3.onrender.com/api/experiences/add', formData)
+        axios.post('http://localhost:8000/api/experiences/add', formData)
             .then(response => {
                 // Add the new experience to the existing list
                 setExperiences([...experiences, response.data]);

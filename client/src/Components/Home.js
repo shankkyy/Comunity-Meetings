@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Team from './pages/Team';
-import Contact from './pages/Contact';
+import Contact from './pages/Experiences';
 import CreateEvent from './pages/CreateEvent';
 import Navbar from './Navbar';
 import UpdateEvent from './pages/UpdateEvent';

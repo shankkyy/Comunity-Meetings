@@ -15,7 +15,7 @@ const Navbar = () => {
         }
 
         try {
-            const response = await fetch('https://comunity-meetings-3.onrender.com/api/users/logout', {
+            const response = await fetch('http://localhost:8000/api/users/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

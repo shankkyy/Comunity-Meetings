@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 import { Route,Routes} from 'react-router-dom'
 import ProtectedRoute from './Components/ProtectedRoute'
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 function App() {
 
